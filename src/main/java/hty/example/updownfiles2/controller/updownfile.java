@@ -2,7 +2,6 @@ package hty.example.updownfiles2.controller;
 import hty.example.updownfiles2.entity.FileService.FileServiceImpl;
 import hty.example.updownfiles2.mapper.FileInfoBatisPlus;
 import hty.example.updownfiles2.mapper.FileInfoMapper;
-//import hty.example.updownfiles2.mapper.FileInfoMapperMybaitsPlus;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
@@ -13,13 +12,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import hty.example.updownfiles2.entity.vo.FileVo;
-import hty.example.updownfiles2.mapper.FileInfoMapper;
 import hty.example.updownfiles2.entity.FileService.FileService;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.sql.Blob;
 import java.util.List;
 
 @RestController
@@ -28,7 +25,6 @@ public class updownfile {
     private FileService fileService ;
     @Autowired
     private FileInfoMapper filemapper;
-    //private FileInfoMapperMybaitsPlus fimm;
     @Autowired
     private FileInfoBatisPlus fbp;
     public updownfile() {
@@ -43,24 +39,11 @@ public class updownfile {
         return "你好啊" + nickname + "== 手机号："+phone;
     }
 
-    @RequestMapping(value="/getTest2",method = RequestMethod.GET)
-    public String getTest2(@RequestParam(value = "nickname",required = false) String name) //@RequestParam是将前端的nickname映射成name，// 前端必须要有nickname,require false是可以不传递
-    {
-        System.out.println("nickname"+name);
-        return "Get请求";
-    }
-    @RequestMapping(value = "/gettest3",method = RequestMethod.POST)
-    public String getPost2(String name,String passwd)
-    {
-        System.out.println(name + ":" + passwd);
-        return "Post请求";
-    }
     @PostMapping("/login")
     public void login(HttpServletResponse response,String username,String passwd)
     {
 
     }
-
     @PostMapping("/upload")
     public FileVo upload(HttpServletResponse response,MultipartFile file) throws IOException {
         System.out.println("upload--file is::::"+file.getOriginalFilename());
@@ -80,7 +63,6 @@ public class updownfile {
         }
         return fileVO;
     }
-
     @GetMapping("/downloadFile")
     @ApiOperation(value = "下载文件接口",httpMethod = "GET",notes = "这是downloadFile的详细说明")
     @ApiImplicitParams({
@@ -104,10 +86,6 @@ public class updownfile {
     {
         System.out.println("查询数据库");
         return fbp.selectList(null);
-        //return filemapper.find(); //返回给前端的对象数据，会自动转换成JSON格式,mybaits的查询数据的方式
-       //List<FileVo> list = fimm.selectList(null);
-       //System.out.println(list);
-       //return list;
     }
 
     @PostMapping("uploads")
@@ -133,13 +111,6 @@ public class updownfile {
         }
         File file = new File(path+photo.getOriginalFilename());
         photo.transferTo(file);
-    }
-
-    @PostMapping("/test")
-    public String test(HttpServletResponse response) throws IOException {
-        System.out.println("upload--file is");
-
-        return "test";
     }
 }
 
